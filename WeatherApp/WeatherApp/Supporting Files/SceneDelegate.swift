@@ -22,7 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         // window?.rootViewController = SettingsViewController()
         // embedding a UIViewController in a UINavigationController
-        window?.rootViewController = UINavigationController(rootViewController: ViewController())
+//        window?.rootViewController = UITabBarController(coder: TabController())
+        window?.rootViewController = UINavigationController(rootViewController: TabController())
         window?.makeKeyAndVisible()
     }
 
