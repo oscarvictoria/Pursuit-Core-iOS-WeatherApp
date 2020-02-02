@@ -12,7 +12,7 @@ struct Photos: Codable {
     let hits: [Hits]
 }
 
-struct Hits: Codable {
+struct Hits: Codable, Equatable {
     let largeImageURL: String
     let likes: Int
     let tags: String

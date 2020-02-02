@@ -27,6 +27,21 @@ class ViewController: UIViewController {
         }
     }
     
+    private var pictureCount = Int() {
+        didSet {
+            
+        }
+    }
+    
+    
+    var pictures = [Hits]() {
+        didSet {
+            
+        }
+    }
+    
+    
+    
     var latLong = "" {
         didSet {
 
@@ -75,6 +90,17 @@ class ViewController: UIViewController {
         }
     }
     
+    func loadImages(for search: String) {
+        PhotosAPIClient.getPhotos(searchQuery: search) { (result) in
+            switch result {
+            case .failure(let appError):
+                print("app error \(appError)")
+            case .success(let image):
+                self.pictures = image
+            }
+        }
+    }
+    
     
 }
 
@@ -99,8 +125,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         let climate = weather[indexPath.row]
         
         let detailViewController = DetailViewController()
+        let index = pictures.count - 1
+        let pictureImage = pictures[Int.random(in: 0...index)]
         detailViewController.weather = climate
         detailViewController.theLocation = location
+        detailViewController.picture = pictureImage
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -109,8 +138,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         getZipCode(search: textField.text!)
-        print(latLong)
-        print(weather)
+        loadImages(for: textField.text ?? "")
         return true
     }
 }
