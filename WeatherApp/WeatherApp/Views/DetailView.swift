@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoritesView: UIView {
+class DetailView: UIView {
     
     public lazy var descriptionLabel: UILabel = {
         let label = UILabel()

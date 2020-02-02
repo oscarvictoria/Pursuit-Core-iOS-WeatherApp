@@ -9,25 +9,25 @@
 import UIKit
 
 class TabController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let firstViewController = ViewController()
-                    
-        firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-
-            let secondViewController = FavoritesViewController()
         
-            secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-
+        firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        
+        let secondViewController = FavoritesViewController()
+        
+        secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        
         let tabBarList = [firstViewController, secondViewController]
-
+        
         viewControllers = tabBarList
         
     }
     
     
     
-
-
+    
+    
 }
