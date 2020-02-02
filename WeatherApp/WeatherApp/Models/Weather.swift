@@ -9,8 +9,8 @@
 import Foundation
 
 struct Weather: Codable {
-    let latitude: Double
-    let longitude: Double
+
+    let timezone: String
     let daily: Day
 }
 
@@ -20,7 +20,7 @@ struct Day: Codable {
 }
 
 struct Climate: Codable {
-    let time: Int
+    let time: Double
     let temperatureHigh: Double
     let temperatureLow: Double
     let icon: String

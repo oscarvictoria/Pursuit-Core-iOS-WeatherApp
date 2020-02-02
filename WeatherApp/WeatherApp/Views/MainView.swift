@@ -36,7 +36,7 @@ class MainView: UIView {
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 130, height: 120)
+        layout.itemSize = CGSize(width: 130, height: 140)
 //        layout.minimumLineSpacing = 0.0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemGray4
@@ -51,7 +51,6 @@ class MainView: UIView {
     required init?(coder: NSCoder) {
          super.init(coder: coder)
          commonInit()
-         
      }
   
     func commonInit() {

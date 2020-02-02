@@ -10,6 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var photos = [Hits]() {
+        didSet {
+            
+        }
+    }
+    
+    
     var weather = [Climate]() {
         didSet {
             DispatchQueue.main.async {
@@ -17,6 +24,22 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    var latLong = "" {
+        didSet {
+            WeatherAPIClient.getWeather(latLong: latLong) { (result) in
+                switch result {
+                case .failure(let appError):
+                    print("error \(appError)")
+                case .success(let climate):
+                    self.weather = climate
+                }
+            }
+            
+        }
+        
+    }
+    
     
     var mainView = MainView()
     
@@ -28,26 +51,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray4
         navigationItem.title = "Weather"
+        mainView.zipField.delegate = self
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         mainView.collectionView.register(UINib(nibName: "WeatherCell", bundle: nil), forCellWithReuseIdentifier: "weatherCell")
-        
-        loadData()
-        
-        
+        mainView.zipField.text = 10467.description
+//        loadPicture()
     }
     
-    func loadData() {
-        WeatherAPIClient.getWeather(latitude:40.7128, longitude: 74.0060) { (result) in
+
+    
+    func getZipCode(search: String) {
+        ZipCodeHelper.getLatLongName(fromZipCode: search) { (result) in
             switch result {
             case .failure(let appError):
                 print("app error \(appError)")
-            case .success(let climate):
-                self.weather = climate
+            case .success(let latLong):
+                self.latLong = "\(latLong.lat),\(latLong.long)"
+                self.mainView.locationLabel.text = latLong.placeName
             }
         }
     }
-    
     
     
 }
@@ -69,5 +93,33 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let climate = weather[indexPath.row]
+        
+        let favoritesViewController = FavoritesViewController()
+        favoritesViewController.weather = climate
+       
+        navigationController?.pushViewController(favoritesViewController, animated: true)
+    }
+}
+
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        getZipCode(search: textField.text!)
+        print(latLong)
+        return true
+    }
+}
+
+extension Double {
+  func timeConverter() -> String {
+    let date = Date(timeIntervalSince1970: self)
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeStyle = DateFormatter.Style.short
+      dateFormatter.dateStyle = DateFormatter.Style.short
+      dateFormatter.timeZone = .current
+      let localDate = dateFormatter.string(from: date)
+      return localDate
+    }
 }
