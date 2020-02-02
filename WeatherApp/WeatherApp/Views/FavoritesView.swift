@@ -12,8 +12,8 @@ class FavoritesView: UIView {
     
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 130, height: 140)
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: 120, height: 120)
         //        layout.minimumLineSpacing = 0.0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemGray4
@@ -33,8 +33,20 @@ class FavoritesView: UIView {
     }
     
     func commonInit() {
-        
+        configureCollectionView()
     }
     
+    func configureCollectionView() {
+        addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+
     
 }

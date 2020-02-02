@@ -11,6 +11,8 @@ import ImageKit
 
 class DetailViewController: UIViewController {
     
+//    public var persistence = DataPersistence<>(filename: "images.plist")
+    
     var theLocation = ""
     
     var weather: Climate?
