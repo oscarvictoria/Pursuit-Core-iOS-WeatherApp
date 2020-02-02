@@ -29,15 +29,7 @@ class ViewController: UIViewController {
     
     var latLong = "" {
         didSet {
-//            WeatherAPIClient.getWeather(latLong: latLong) { (result) in
-//                switch result {
-//                case .failure(let appError):
-//                    print("error \(appError)")
-//                case .success(let climate):
-//                    self.weather = climate
-//                }
-//            }
-            
+
         }
         
     }
@@ -68,7 +60,7 @@ class ViewController: UIViewController {
                 print("app error \(appError)")
             case .success(let latLongName):
                 self.latLong = "\(latLongName.lat),\(latLongName.long)"
-                self.mainView.locationLabel.text = latLongName.placeName
+                self.mainView.locationLabel.text = "Weather Forecast for \(latLongName.placeName)"
                 self.location = latLongName.placeName
 //                self.delegate?.didInsertLocation(latLongName.placeName)
                 WeatherAPIClient.getWeather(latLong: self.latLong) { (result) in
@@ -106,10 +98,10 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let climate = weather[indexPath.row]
         
-        let favoritesViewController = DetailViewController()
-        favoritesViewController.weather = climate
-        favoritesViewController.theLocation = location
-        navigationController?.pushViewController(favoritesViewController, animated: true)
+        let detailViewController = DetailViewController()
+        detailViewController.weather = climate
+        detailViewController.theLocation = location
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 

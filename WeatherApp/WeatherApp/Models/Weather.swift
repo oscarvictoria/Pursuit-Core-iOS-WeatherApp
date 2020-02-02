@@ -20,6 +20,9 @@ struct Day: Codable {
 }
 
 struct Climate: Codable {
+    let sunriseTime: Double
+    let sunsetTime: Double
+    let windSpeed: Double
     let time: Double
     let temperatureHigh: Double
     let temperatureLow: Double

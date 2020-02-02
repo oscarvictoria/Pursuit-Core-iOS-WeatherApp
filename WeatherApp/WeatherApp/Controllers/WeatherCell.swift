@@ -22,7 +22,6 @@ class WeatherCell: UICollectionViewCell {
         weatherImage.image = UIImage(named: weather.icon)
         dateLabel.text = weather.time.timeConverter()
         
-        
     }
     
 }

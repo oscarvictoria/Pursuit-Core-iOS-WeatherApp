@@ -13,8 +13,6 @@ class DetailViewController: UIViewController {
     
     var theLocation = ""
     
-    var detailView = ViewController()
-    
     var weather: Climate?
     
     var detail = DetailView()
@@ -26,7 +24,6 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
         loadPhotos()
     }
     
@@ -36,6 +33,11 @@ class DetailViewController: UIViewController {
         }
         DispatchQueue.main.async {
             self.detail.descriptionLabel.text = climate.icon
+            self.detail.highTemeperatureLabel.text = "High: \(climate.temperatureHigh.description) ℉"
+            self.detail.lowTemperatureLabel.text = "Low: \(climate.temperatureLow.description) ℉"
+            self.detail.sunriseLabel.text = climate.sunriseTime.timeConverter()
+            self.detail.sunsetLabel.text = climate.sunsetTime.timeConverter()
+            self.detail.windspeedLabel.text = "Windspeed: \(climate.windSpeed.description) MPH"
             self.detail.cityImage.getImage(with: photo) { (result) in
                 switch result {
                 case .failure(let appError):
@@ -51,8 +53,6 @@ class DetailViewController: UIViewController {
     }
     
     func loadPhotos() {
-//        let location = ViewController()
-//        location.delegate = self
         PhotosAPIClient.getPhotos(searchQuery: theLocation) { (result) in
             switch result {
             case .failure(let appError):
@@ -61,12 +61,6 @@ class DetailViewController: UIViewController {
                 self.updatUI(photo)
             }
         }
-    }
-}
-
-extension DetailViewController: weatherLocationDelegate {
-    func didInsertLocation(_ location: String) {
-        self.theLocation = location
     }
 }
 
