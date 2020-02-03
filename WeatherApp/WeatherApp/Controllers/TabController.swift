@@ -12,7 +12,7 @@ class TabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let firstViewController = ViewController()
+        let firstViewController = UINavigationController(rootViewController: ViewController()) 
         
         firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
@@ -25,9 +25,5 @@ class TabController: UITabBarController {
         viewControllers = tabBarList
         
     }
-    
-    
-    
-    
     
 }

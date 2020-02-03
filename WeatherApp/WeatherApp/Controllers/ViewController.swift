@@ -77,13 +77,14 @@ class ViewController: UIViewController {
                 self.latLong = "\(latLongName.lat),\(latLongName.long)"
                 self.mainView.locationLabel.text = "Weather Forecast for \(latLongName.placeName)"
                 self.location = latLongName.placeName
-//                self.delegate?.didInsertLocation(latLongName.placeName)
+                self.loadImages(for: latLongName.placeName)
                 WeatherAPIClient.getWeather(latLong: self.latLong) { (result) in
                     switch result {
                     case .failure(let appError):
                         print("app error \(appError)")
                     case .success(let climate):
                         self.weather = climate
+                    
                     }
                 }
             }
@@ -126,10 +127,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         
         let detailViewController = DetailViewController()
         let index = pictures.count - 1
+        if !pictures.isEmpty {
         let pictureImage = pictures[Int.random(in: 0...index)]
+            detailViewController.picture = pictureImage
+        }
         detailViewController.weather = climate
         detailViewController.theLocation = location
-        detailViewController.picture = pictureImage
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -138,7 +141,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         getZipCode(search: textField.text!)
-        loadImages(for: textField.text ?? "")
         return true
     }
 }
@@ -147,10 +149,24 @@ extension Double {
     func timeConverter() -> String {
         let date = Date(timeIntervalSince1970: self)
         let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = DateFormatter.Style.short
-        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.medium
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.dateFormat = "EEEE, MMM d"
         dateFormatter.timeZone = .current
         let localDate = dateFormatter.string(from: date)
         return localDate
     }
+    
+    func timeConverterTwo() -> String {
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.dateFormat = "HH:mm a"
+        dateFormatter.timeZone = .current
+        let localDate = dateFormatter.string(from: date)
+        return localDate
+    }
+
+    
 }

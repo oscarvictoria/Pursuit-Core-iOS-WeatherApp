@@ -16,12 +16,12 @@ class FavoritesViewController: UIViewController {
     var persistance = DataPersistence<Hits>(filename: "images.plist")
     
     var savedPictures = [Hits]() {
-          didSet {
-              DispatchQueue.main.async {
+        didSet {
+            DispatchQueue.main.async {
                 self.favorites.collectionView.reloadData()
-              }
-          }
-      }
+            }
+        }
+    }
      
     override func loadView() {
         view = favorites
@@ -34,6 +34,10 @@ class FavoritesViewController: UIViewController {
         favorites.collectionView.delegate = self
         favorites.collectionView.dataSource = self
         favorites.collectionView.register(UINib(nibName: "PictureCell", bundle: nil), forCellWithReuseIdentifier: "pictureCell")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         loadPictues()
     }
     

@@ -12,6 +12,7 @@ import DataPersistence
 
 class DetailViewController: UIViewController {
     
+    
     public var persistence = DataPersistence<Hits>(filename: "images.plist")
     
     var theLocation = ""
@@ -34,19 +35,17 @@ class DetailViewController: UIViewController {
         loadPhotos()
     }
     
-    
-
     func updatUI() {
         guard let climate = weather else {
             fatalError("could not get photo")
         }
+        detail.nameAndDateLabel.text = "Weather Forecast for \(theLocation) for \(climate.time.timeConverter())"
         detail.descriptionLabel.text = climate.icon
         detail.highTemeperatureLabel.text = "High: \(climate.temperatureHigh.description) ℉"
         detail.lowTemperatureLabel.text = "Low: \(climate.temperatureLow.description) ℉"
-        detail.sunriseLabel.text = climate.sunriseTime.timeConverter()
-        detail.sunsetLabel.text = climate.sunsetTime.timeConverter()
+        detail.sunriseLabel.text = " Sunrise: \(climate.sunriseTime.timeConverterTwo())"
+        detail.sunsetLabel.text = "Sunset: \(climate.sunsetTime.timeConverterTwo())"
         detail.windspeedLabel.text = "Windspeed: \(climate.windSpeed.description) MPH"
-        
     }
     
     func loadPhotos() {
@@ -83,6 +82,7 @@ class DetailViewController: UIViewController {
         
     }
 }
+
 
 
 
